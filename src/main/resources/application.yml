@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: fil-rouge_cda
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fil_rouge_cda
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
