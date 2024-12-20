@@ -19,7 +19,7 @@ public class NavController {
         return "contact";
     }
 
-    @GetMapping("/propos")
+    @GetMapping("/about")
     public String propos() {
         return "propos";
     }

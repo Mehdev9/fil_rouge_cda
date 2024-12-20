@@ -13,3 +13,26 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    username: 5db4f158cbc9b5
+    password: 042b2ac9458bcd
+    port: 2525
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enable: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+application:
+  front:
+    url: "http://localhost:5173"
+  security:
+    jwt:
+      secret: 693e0c37560eace85380977a40f5ab906bcbfe4cad84a65b47fbd53f9c35f22a6b56ff04abced06ca28d7d1888dc231598ed64a7ea7360d41c13e83e7ad0ea96b5d328cb8b81e40b65342b557072c60b24b5e5ebf9f71242e504d6e955e03ebb8b2ab2942a94bd58c73107bd3d8ec24cd305ce02a2ebe2c854f5f7dcac196b0f8dc5b9e8d83145fea266309870f8afa945240fa4ce444f4888c38e0791dfd1c613ad6127f666248519d2f8d8d0efd990eefb868b4b0a913e01f5613ec20f315f23faee3b99e2f7807280caaa401a48e90b663693ded770f60e3d0e42bb05bed023ec031a49d1347dff5ae0cfe20d321c5d8408f0a7df55e4b7a0a9eccd155068 # key jwt
+      expiration: 86400000 # 24h en milliseconde
