@@ -31,13 +31,13 @@ public class AccountService {
         accountToCreate.setUsername(registerRequest.getUsername());
         accountToCreate.setEmail(registerRequest.getEmail());
 
-
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
         accountToCreate.setPassword(encodedPassword);
         accountToCreate.setRole(Role.ROLE_USER);
 
         accountRepository.save(accountToCreate);
     }
+
 
     public String authenticate(AuthRequest request) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

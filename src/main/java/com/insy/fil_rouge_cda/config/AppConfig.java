@@ -1,7 +1,7 @@
 package com.insy.fil_rouge_cda.config;
 
 
-import com.insy.fil_rouge_cda.repositories.UserRepository;
+import com.insy.fil_rouge_cda.repositories.IAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppConfig {
 
-    private final UserRepository userRepository;
+    private final IAccountRepository accountRepository;
 
     @Value("${application.front.url}")
     private String urlFront;
@@ -42,7 +42,7 @@ public class AppConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmailIgnoreCase(username).orElse(null);
+        return username -> accountRepository.findByUsernameIgnoreCase(username).orElse(null);
     }
 
     @Bean

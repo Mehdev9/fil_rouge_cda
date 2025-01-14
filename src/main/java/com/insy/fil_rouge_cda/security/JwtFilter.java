@@ -28,6 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         String bearerToken = request.getHeader("Authorization");
+
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -40,18 +41,21 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String username = jwtService.getuserNameFromToken(token);
+
         if (username == null || username.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
         }
 
         UserDetails user = userDetailsService.loadUserByUsername(username);
+
         if (user == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         boolean isTokenValid = jwtService.validateToken(token, user);
+
         if (!isTokenValid) {
             filterChain.doFilter(request, response);
             return;
