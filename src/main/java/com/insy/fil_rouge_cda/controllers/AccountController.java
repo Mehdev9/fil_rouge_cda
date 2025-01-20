@@ -14,7 +14,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/accounts/me")
+    @GetMapping("/account")
     public ResponseEntity<Account>getCurrentAccount(){
         Account currentAccount = accountService.getCurrentAccount();
         return ResponseEntity.ok().body(currentAccount);

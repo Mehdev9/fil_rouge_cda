@@ -21,13 +21,16 @@ public class ProductEntity {
     @GeneratedValue
     private Long id;
 
-    @Size(min = 4, max = 30)
+    @Column(nullable = true)
+    private String imageUrl;
+
+    @Size(min = 1, max = 30)
     @NotBlank
     @Column(nullable = false, unique = true, length = 30)
     private String name;
 
     @NotBlank
-    @Size(min = 20, max = 255)
+    @Size(min = 1, max = 255)
     @Column(nullable = false)
     private String description;
 
@@ -36,10 +39,10 @@ public class ProductEntity {
     private String category;
 
     @NotBlank
-    @Size(min = 4, max = 30)
+    @Size(min = 2, max = 30)
     private String brand;
 
-    @NotBlank
+
     @Positive
     private Double price;
 
