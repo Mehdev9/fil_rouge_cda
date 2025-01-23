@@ -35,7 +35,7 @@ public class ProductEntity {
     private String description;
 
     @NotBlank
-    @Size(min = 4, max = 30)
+    @Size(min = 1, max = 30)
     private String category;
 
     @NotBlank

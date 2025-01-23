@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dashboard/products")
@@ -23,7 +25,7 @@ public class ProductController {
             @RequestParam("brand") String brand,
             @RequestParam("price") Double price,
             @RequestParam("quantity") int quantity,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "imageUrl", required = false) MultipartFile image) {
 
         ProductEntity product = new ProductEntity();
         product.setName(name);
@@ -46,7 +48,7 @@ public class ProductController {
             @RequestParam("brand") String brand,
             @RequestParam("price") Double price,
             @RequestParam("quantity") int quantity,
-            @RequestParam(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "imageUrl", required = false) MultipartFile image) {
 
         ProductEntity product = new ProductEntity();
         product.setName(name);
@@ -68,4 +70,39 @@ public class ProductController {
         return isDeleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/shop")
+    public ResponseEntity<List<ProductEntity>> getAllProducts(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "price", required = false) String price,
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "brand", required = false) String brand) {
+
+        List<ProductEntity> products = productService.getAll();
+
+        // Filtrage par nom
+        if (query != null && !query.isEmpty()) {
+            products = productService.searchByName(products, query);
+        }
+
+        // Filtrage par prix
+        if (price != null && !price.isEmpty()) {
+            products = productService.filterByPrice(products, price);
+        }
+
+        // Filtrage par catégorie
+        if (category != null && !category.isEmpty()) {
+            products = productService.filterByCategory(products, category);
+        }
+
+        // Filtrage par marque
+        if (brand != null && !brand.isEmpty()) {
+            products = productService.filterByBrand(products, brand);
+        }
+
+        return ResponseEntity.ok(products);
+    }
+
+
+
 }
