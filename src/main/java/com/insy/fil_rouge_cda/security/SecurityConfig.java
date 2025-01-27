@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/hello", "/register", "/authenticate", "/contact", "/dashboard/products/shop", "/dashboard/products/edit" ).permitAll()
+                        .requestMatchers("/hello", "/register", "/authenticate", "/contact", "/dashboard/products/shop", "/dashboard/products/{id}" ).permitAll()
                       //  .requestMatchers("/hello/admin").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )

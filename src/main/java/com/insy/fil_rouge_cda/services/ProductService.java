@@ -108,5 +108,10 @@ public class ProductService {
         Files.copy(file.getInputStream(), path);
         return "/static/img/" + fileName;
     }
+
+    public Optional<ProductEntity> getProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
 }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,28 +81,35 @@ public class ProductController {
 
         List<ProductEntity> products = productService.getAll();
 
-        // Filtrage par nom
         if (query != null && !query.isEmpty()) {
             products = productService.searchByName(products, query);
         }
 
-        // Filtrage par prix
         if (price != null && !price.isEmpty()) {
             products = productService.filterByPrice(products, price);
         }
 
-        // Filtrage par catégorie
         if (category != null && !category.isEmpty()) {
             products = productService.filterByCategory(products, category);
         }
 
-        // Filtrage par marque
         if (brand != null && !brand.isEmpty()) {
             products = productService.filterByBrand(products, brand);
         }
 
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable Long id) {
+        Optional<ProductEntity> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            return new ResponseEntity<>(product.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 
 
