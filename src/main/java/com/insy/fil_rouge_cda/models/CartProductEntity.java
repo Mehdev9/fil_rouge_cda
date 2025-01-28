@@ -20,6 +20,8 @@ public class CartProductEntity {
     private Long productId;
     private int quantity;
     private double price;
+    private String name;
+    private String description;
 
     @ManyToOne
     @JsonIgnore

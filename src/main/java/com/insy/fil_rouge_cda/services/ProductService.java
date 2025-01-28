@@ -106,7 +106,7 @@ public class ProductService {
         String fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
         Path path = Paths.get(UPLOAD_DIR + fileName);
         Files.copy(file.getInputStream(), path);
-        return "/static/img/" + fileName;
+        return "img/" + fileName;
     }
 
     public Optional<ProductEntity> getProductById(Long id) {

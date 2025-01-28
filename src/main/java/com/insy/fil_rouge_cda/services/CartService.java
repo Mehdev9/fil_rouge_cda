@@ -3,9 +3,11 @@ package com.insy.fil_rouge_cda.services;
 import com.insy.fil_rouge_cda.models.Account;
 import com.insy.fil_rouge_cda.models.CartEntity;
 import com.insy.fil_rouge_cda.models.CartProductEntity;
+import com.insy.fil_rouge_cda.models.ProductEntity;
 import com.insy.fil_rouge_cda.repositories.CartProductRepository;
 import com.insy.fil_rouge_cda.repositories.CartRepository;
 import com.insy.fil_rouge_cda.repositories.IAccountRepository;
+import com.insy.fil_rouge_cda.repositories.ProductRepository;
 import com.insy.fil_rouge_cda.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private CartProductRepository cartItemRepository;
@@ -31,11 +36,15 @@ public class CartService {
             cart.setUser(user);
             cart = cartRepository.save(cart);
         }
+        ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produit non trouvé"));
+
 
         CartProductEntity item = new CartProductEntity();
         item.setProductId(productId);
         item.setQuantity(quantity);
         item.setPrice(price);
+        item.setName(product.getName());
+        item.setDescription(product.getDescription());
         item.setCart(cart);
         cart.getItems().add(item);
 
