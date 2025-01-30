@@ -20,6 +20,13 @@ public class CartController {
         return ResponseEntity.ok(updatedCart);
     }
 
+    @PutMapping("/updateQuantity")
+    public ResponseEntity<CartEntity> updateProductQuantity(@RequestParam Long productId, @RequestParam int quantity) {
+        CartEntity updatedCart = cartService.updateProductQuantity(productId, quantity);
+        return ResponseEntity.ok(updatedCart);
+    }
+
+
     @DeleteMapping("/remove")
     public ResponseEntity<CartEntity> removeProductFromCart(@RequestParam Long productId) {
         System.out.println("delete" + productId);

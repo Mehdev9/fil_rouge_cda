@@ -23,6 +23,7 @@ public class CartService {
 
     @Autowired
     private CartProductRepository cartItemRepository;
+
     @Autowired
     private IAccountRepository accountRepository;
 
@@ -36,21 +37,33 @@ public class CartService {
             cart.setUser(user);
             cart = cartRepository.save(cart);
         }
+
         ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produit non trouvé"));
 
+        CartProductEntity existingItem = cart.getItems().stream()
+                .filter(item -> item.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
 
-        CartProductEntity item = new CartProductEntity();
-        item.setProductId(productId);
-        item.setQuantity(quantity);
-        item.setPrice(price);
-        item.setName(product.getName());
-        item.setDescription(product.getDescription());
-        item.setCart(cart);
-        cart.getItems().add(item);
+        if (existingItem != null) {
 
-        cartItemRepository.save(item);
+            int updatedQuantity = existingItem.getQuantity() + quantity;
+            existingItem.setQuantity(updatedQuantity);
+            cartItemRepository.save(existingItem);
+        } else {
+
+            CartProductEntity newItem = new CartProductEntity();
+            newItem.setProductId(productId);
+            newItem.setQuantity(quantity);
+            newItem.setPrice(price);
+            newItem.setCart(cart);
+            cart.getItems().add(newItem);
+            cartItemRepository.save(newItem);
+        }
+
         return cartRepository.save(cart);
     }
+
 
     public CartEntity removeProductFromCart(Long productId) {
         String userName = SecurityUtils.getCurrentUsername();
@@ -66,5 +79,31 @@ public class CartService {
         String userName = SecurityUtils.getCurrentUsername();
         return cartRepository.findByUserUsername(userName);
     }
+
+    public CartEntity updateProductQuantity(Long productId, int quantity) {
+        String userName = SecurityUtils.getCurrentUsername();
+        CartEntity cart = cartRepository.findByUserUsername(userName);
+
+        if (cart == null) {
+            return cart;
+        }
+
+        CartProductEntity existingItem = cart.getItems().stream()
+                .filter(item -> item.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
+
+        if (existingItem != null) {
+            if (quantity <= 0) {
+                cart.getItems().remove(existingItem);
+            } else {
+                existingItem.setQuantity(quantity);
+                cartItemRepository.save(existingItem);
+            }
+        }
+
+        return cartRepository.save(cart);
+    }
+
 
 }
