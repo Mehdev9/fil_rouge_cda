@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/hello", "/register", "/authenticate", "/contact", "/dashboard/products/shop", "/dashboard/products/{id}",  "/img/*" ).permitAll()
-                      //  .requestMatchers("/hello/admin").hasAuthority(Role.ROLE_ADMIN.name())
+                      //  .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
