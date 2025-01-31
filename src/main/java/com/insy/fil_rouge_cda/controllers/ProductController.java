@@ -2,6 +2,7 @@ package com.insy.fil_rouge_cda.controllers;
 
 import com.insy.fil_rouge_cda.models.ProductEntity;
 import com.insy.fil_rouge_cda.services.ProductService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<ProductEntity> create(
             @RequestParam("name") String name,
@@ -42,7 +43,7 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RolesAllowed("ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<ProductEntity> edit(
             @PathVariable Long id,
@@ -68,6 +69,7 @@ public class ProductController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean isDeleted = productService.deleteProduct(id);

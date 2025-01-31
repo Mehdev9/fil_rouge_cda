@@ -1,9 +1,7 @@
 package com.insy.fil_rouge_cda.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +37,7 @@ public class Account implements UserDetails {
     @Size(min = 2, max = 30)
     private String lastName;
 
+//    @Enumerated(EnumType.STRING) //pour nommer les roles au lieu d'avoir des id
     private Role role;
 
 
